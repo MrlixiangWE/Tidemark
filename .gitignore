@@ -1,0 +1,29 @@
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# runtime state
+telemetry/
+logs/
+.engines.pid
+*.log
+
+# local overrides
+configs/local*.yaml
+.env
+
+# editors / os
+.vscode/
+.idea/
+.DS_Store

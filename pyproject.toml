@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tidemark"
+description = "Efficient model switching with versioned KV frontiers for device-edge-cloud LLM serving"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "The Tidemark Authors" }]
+keywords = ["llm", "serving", "kv-cache", "edge", "mobile", "scheduling", "vllm", "llama.cpp"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: System :: Distributed Computing",
+]
+dynamic = ["version"]
+dependencies = ["pyyaml>=6.0"]
+
+[project.optional-dependencies]
+engines = ["requests>=2.31"]
+tokenizers = ["transformers>=4.40"]
+dev = ["pytest>=8", "pytest-cov", "ruff>=0.4", "mypy>=1.8", "requests>=2.31"]
+
+[project.scripts]
+tidemark = "tidemark.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/MrlixiangWE/Tidemark"
+Issues = "https://github.com/MrlixiangWE/Tidemark/issues"
+
+[tool.setuptools]
+packages = { find = { include = ["tidemark*"] } }
+
+[tool.setuptools.dynamic]
+version = { attr = "tidemark.version.__version__" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501", "B008", "UP006", "UP007", "UP035", "UP045"]
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+warn_unused_ignores = true
