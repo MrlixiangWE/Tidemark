@@ -1,6 +1,6 @@
 """Configuration.
 
-Everything the paper's evaluation fixes is a field here with the same default:
+Everything our evaluation fixes is a field here with the same default:
 interval set ``{256, 512, 1024}``, foreground TPOT guard ``gamma = 0.03``,
 predictor weight ``alpha = 1``, per-tenant caps ``kappa = 2`` and
 ``beta = 0.35``, memory weight ``lambda_M = 64 ms/GiB``, and ``delta_max = 1024``.

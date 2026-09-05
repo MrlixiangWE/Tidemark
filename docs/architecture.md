@@ -157,7 +157,7 @@ Every ticket ends in exactly one of `committed`, `refused`, `cancelled`,
 
 ## Where the numbers come from
 
-`configs/testbed/rates.yaml` holds the fitted `τ_fg` and `τ_bg` for the paper's
+`configs/testbed/rates.yaml` holds the fitted `τ_fg` and `τ_bg` for our
 testbed. `scripts/calibrate_rates.py` regenerates them for new hardware; the
 scheduler also refines `τ_bg` online from the measured compute time of each
 committed interval.

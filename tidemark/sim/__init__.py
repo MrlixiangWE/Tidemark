@@ -3,7 +3,7 @@
 The simulator exists so the scheduling logic can be exercised without a GPU:
 it drives the real catalog, scheduler and admission code against fitted rates
 and a route trace, and reports the switch TTFT each policy would have paid. It
-is not a substitute for the testbed, and the numbers in the paper come from
+is not a substitute for the testbed, and every number we report comes from
 real engines; the simulator is for development, regression tests and the
 quick-start demo.
 """

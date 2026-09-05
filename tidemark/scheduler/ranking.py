@@ -1,4 +1,4 @@
-"""Marginal-value ranking and the cross-tenant ranking epoch (Algorithm 1).
+"""Marginal-value ranking and the cross-tenant ranking epoch.
 
 An interval ``a = (s, m, c, delta)`` that advances frontier ``F`` removes
 expected latency
@@ -135,7 +135,7 @@ class EpochOutcome:
 
 
 class RankingEpoch:
-    """One run of Algorithm 1 over a set of candidates."""
+    """One ranking epoch over a set of candidates."""
 
     def __init__(self, ledger: TenantLedger) -> None:
         self.ledger = ledger

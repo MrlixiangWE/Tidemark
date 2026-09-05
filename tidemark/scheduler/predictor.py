@@ -9,7 +9,7 @@ application-supplied router signal with a session-history transition estimate:
 ``alpha = 1`` recovers a pure router signal, ``alpha = 0`` a router-agnostic
 transition prior. In our deployments the router signal is the one that
 matters; the prior exists so a deployment with no router probabilities still
-has something to rank with, and the paper's sensitivity study shows where it
+has something to rank with, and our sensitivity study shows where it
 stops helping.
 """
 
@@ -47,8 +47,8 @@ class HistoryTransitionEstimator:
     """First-order model-to-model transition counts, per session.
 
     Estimated from the session's own history with additive smoothing. Early in
-    a session it has seen only a handful of transitions, and the paper is
-    explicit that this prior alone is a poor guide; it is here as the
+    a session it has seen only a handful of transitions, and our measurements
+    show that this prior alone is a poor guide; it is here as the
     ``alpha = 0`` end of the blend.
     """
 
@@ -81,7 +81,7 @@ class HistoryTransitionEstimator:
 
 @dataclass
 class DestinationPredictor:
-    """Blend of router signal and history prior (Equation 3 in the paper)."""
+    """Blend of router signal and history prior."""
 
     models: Sequence[str]
     router: Optional[RouterSignal] = None

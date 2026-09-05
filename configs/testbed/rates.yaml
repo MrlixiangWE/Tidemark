@@ -1,4 +1,4 @@
-# Fitted per-engine rates for the paper's testbed.
+# Fitted per-engine rates for our testbed.
 #
 #   tau_fg  foreground wall time per uncached token on the critical path of a switch
 #   tau_bg  incremental scheduled compute time an interval adds when batched with decode

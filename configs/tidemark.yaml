@@ -1,6 +1,6 @@
 # Tidemark scheduler defaults.
 #
-# These are the values used throughout the paper's evaluation. Copy this file,
+# These are the values used throughout our evaluation. Copy this file,
 # fill in the `engines:` list for your deployment, and point `rates_file:` at
 # the output of scripts/calibrate_rates.py.
 

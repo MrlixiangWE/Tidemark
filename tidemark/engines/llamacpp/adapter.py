@@ -7,7 +7,7 @@ device tier is handled differently from the server tiers:
   runs one slot; if that slot is decoding a foreground request the engine is
   ``Blocked``, otherwise it is ``Idle``. There is no ``Mixed`` mode on a single
   slot, which matches the measured ``tau_bg / tau_fg`` of about 0.9 on the
-  phones and boards in the paper.
+  phones and boards we measured.
 * A prefill-only request is a ``/completion`` with ``n_predict = 0`` and
   ``cache_prompt = true``; the response's ``tokens_cached`` and
   ``prompt_n`` fields give exact reuse accounting.

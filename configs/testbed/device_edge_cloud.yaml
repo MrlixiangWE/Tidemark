@@ -1,4 +1,4 @@
-# The three-tier testbed used in the paper.
+# The three-tier testbed we evaluate on.
 #
 # Device platforms carry their own compact model; both server tiers run Qwen2.5
 # at different sizes. The scheduler process runs on one of the edge modules,

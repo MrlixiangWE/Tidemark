@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: A new engine adapter, a scheduling knob, or something the paper leaves open
+about: A new engine adapter, a scheduling knob, or something the design leaves open
 labels: enhancement
 ---
 

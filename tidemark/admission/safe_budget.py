@@ -1,4 +1,4 @@
-"""Safe budget of a scheduler iteration (Equation 7).
+"""Safe budget of a scheduler iteration.
 
 Let ``B_t`` be the engine token budget of iteration ``t`` and let ``D_t`` and
 ``P_t`` be the foreground decode and prefill tokens already selected. Then

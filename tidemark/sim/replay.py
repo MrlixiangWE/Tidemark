@@ -43,7 +43,7 @@ class ReplayEngine(EngineAdapter):
 
     Foreground load is modelled as a per-engine utilisation ``rho``: with
     probability ``rho`` an iteration carries foreground decode, otherwise it is
-    idle. That is enough to reproduce the paper's qualitative behaviour (short
+    idle. That is enough to reproduce the qualitative behaviour we see on real engines (short
     safe budgets under load, whole-suffix prefetch inflating TPOT) without
     pretending to be a GPU.
     """
@@ -171,7 +171,7 @@ class ReplayReport:
 
 
 def _default_engines() -> List[EngineConfig]:
-    # The three tiers of the paper's testbed with its fitted rates.
+    # The three tiers of our testbed with their fitted rates.
     return [
         EngineConfig("device-0", "llama-3.2-1b", "device", "http://device:8080", "llamacpp", tau_fg_ms_per_ktok=2560, tau_bg_ms_per_ktok=2330, kv_bytes_per_token=32768, tpot_ref_ms=48.0),
         EngineConfig("edge-0", "qwen2.5-7b", "edge", "http://edge:8000", "vllm", tau_fg_ms_per_ktok=732, tau_bg_ms_per_ktok=344, kv_bytes_per_token=57344, tpot_ref_ms=31.0),

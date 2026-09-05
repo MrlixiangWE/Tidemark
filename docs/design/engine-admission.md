@@ -85,14 +85,14 @@ physical cache manager.
 
 Implementation: `tidemark/admission/commit.py`, `tidemark/catalog/validity.py`.
 
-## What the paper measured
+## What we measured
 
 On the cloud engine over a 0.6 s medium-load episode: admitted sizes follow
 the safe-budget envelope, 1024 tokens while the engine is lightly loaded and
 256 as a burst consumes the budget. Single foreground arrivals dent the
 envelope and stop the in-flight interval at the next boundary; admission
 resumes at the following iteration. Removing the guard entirely moves the
-switch tail the least of the paper's ablations but inflates TPOT by 65.7 %,
+switch tail the least of our ablations but inflates TPOT by 65.7 %,
 which is the trade whole-suffix prefetch makes at high load.
 
 ## Device tier

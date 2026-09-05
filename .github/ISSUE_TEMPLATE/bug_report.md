@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Something behaves differently from what the docs or the paper say
+about: Something behaves differently from what the docs say
 labels: bug
 ---
 

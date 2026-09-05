@@ -6,7 +6,7 @@ Tidemark reads one YAML (or JSON) file. Every key below has the default shown;
 
 ## `scheduler`
 
-| key | default | paper symbol | meaning |
+| key | default | symbol | meaning |
 |---|---|---|---|
 | `listen` | `0.0.0.0:7420` | | address of the scheduler's HTTP API |
 | `delta_max` | `1024` | Δmax | largest interval a ticket may advance, in tokens |
@@ -18,7 +18,7 @@ Tidemark reads one YAML (or JSON) file. Every key below has the default shown;
 
 ## `admission`
 
-| key | default | paper symbol | meaning |
+| key | default | symbol | meaning |
 |---|---|---|---|
 | `intervals` | `[256, 512, 1024]` | D | admitted sizes an engine may choose from |
 | `x_max` | `1024` | X_max | cap on a single admission |
@@ -63,7 +63,7 @@ Path (relative to the config) of a rates YAML produced by
 
 ## Sensitivity, briefly
 
-From the paper's sweeps under the high-load paced setting:
+From our sweeps under the high-load paced setting:
 
 - **α.** Moving from the pure history prior (`α = 0`) to the first blend that
   includes the router signal (`α = 0.25`) raised top-1 destination accuracy at

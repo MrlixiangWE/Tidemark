@@ -59,9 +59,8 @@ Orin edge modules, a two-GPU cloud server) replaying WildChat and LMSYS
 conversations under recorded wireless traces, Tidemark cuts **P95 model-switch
 TTFT by up to 48.1 %** over prefix-caching and session-retention baselines,
 holds cloud TPOT within its 3 % guard, and uses **68.3 % less speculative
-compute** than whole-suffix prefetching at high load. Details are in the paper;
-this repository contains the runtime, the engine patches, and a GPU-free replay
-of the control loop.
+compute** than whole-suffix prefetching at high load. This repository contains
+the runtime, the engine patches, and a GPU-free replay of the control loop.
 
 ## Quick start
 
@@ -74,7 +73,7 @@ tidemark replay --trace examples/traces/demo.jsonl --load 0.6
 ```
 
 The replay drives the real catalog, scheduler and admission code against a
-synthetic mobility trace and the paper's fitted per-engine rates, and compares
+synthetic mobility trace and the fitted per-engine rates of our testbed, and compares
 three policies: reactive prefix caching, whole-suffix prefetch, and Tidemark.
 
 ```
@@ -150,7 +149,7 @@ The deployment guides cover the details: [vLLM](docs/deployment/vllm.md),
 
 ## How it works
 
-Tidemark has three parts, matching Sections 3.2–3.4 of the paper.
+Tidemark has three parts.
 
 ### ❶ Versioned KV frontier catalog
 
@@ -232,7 +231,7 @@ tidemark/
 engines/
 ├── vllm/             tidemark_v1_admission.patch, install.sh
 └── llamacpp/         tidemark_commit.patch
-configs/              defaults, the paper's testbed, single-node and two-tier examples
+configs/              defaults, our testbed, single-node and two-tier examples
 scripts/              calibrate_rates.py, bench_switch_ttft.py, launch/stop engines, make_demo_trace.py
 examples/             quickstart.py, router_integration.py, traces/demo.jsonl
 docs/                 architecture, design notes, deployment guides, configuration, FAQ
@@ -241,7 +240,7 @@ tests/                unit tests for every component plus a replay smoke test
 
 ## Configuration
 
-The defaults are the values the paper evaluates. Full reference in
+The defaults are the values we run with on the testbed. Full reference in
 [docs/configuration.md](docs/configuration.md).
 
 | knob | default | what it does |
@@ -286,8 +285,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Citation
 
-The accompanying paper is under review. A citation entry will be added here
-once it is public; until then, please cite this repository.
+If you use Tidemark in your work, please cite this repository (see
+[`CITATION.cff`](CITATION.cff)).
 
 ## License
 

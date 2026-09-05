@@ -58,7 +58,7 @@ resident, and ranking resumes.
 ## Energy
 
 Background prefill on a phone costs energy for state that may never be read.
-In the paper's 20-turn session with six switches, shorter foreground prefill
+In a 20-turn session with six switches on our testbed, shorter foreground prefill
 and less radio idle-wait returned more energy than the background prefill
 added (a net 5.5 % saving); where no committed frontier was ever read the loss
 was bounded at 12.5 %. If your workload rarely returns to the device, set

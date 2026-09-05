@@ -92,5 +92,5 @@ def test_short_tail_is_admitted_whole():
     assert d.admitted_delta == 90
 
 
-def test_interval_set_is_the_paper_default():
+def test_interval_set_default():
     assert INTERVAL_SET == (256, 512, 1024)

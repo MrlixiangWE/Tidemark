@@ -39,7 +39,7 @@ p_{s,m} = α · p̂_router_{s,m} + (1 − α) · p̂_hist_{s,m}
 ```
 
 `α = 1` (the default) is a pure router signal. The history prior on its own is
-a poor guide early in a session and the paper's sensitivity study shows a
+a poor guide early in a session and our sensitivity study shows a
 deployment with no router signal does better disabling preparation than
 trusting the prior; it is here as the `α = 0` end of the blend and as a
 fallback when the router has no opinion for a session.
@@ -77,7 +77,7 @@ disturbing the ranking.
 `τ_fg` and `τ_bg` measure different things. `τ_fg` is wall time per token on
 the critical path of a switch. `τ_bg` is the incremental scheduled compute time
 an interval adds when it is batched alongside foreground decode. Their ratio
-on the paper's testbed:
+on our testbed:
 
 | tier | τ_fg (ms/Ktok) | τ_bg / τ_fg |
 |---|---|---|
@@ -89,7 +89,7 @@ A background token on the cloud engine fills capacity a decode-heavy batch
 leaves unused; a device engine has little spare width to absorb it. Tiers
 therefore differ both in how much latency a prepared token removes and in how
 much compute it takes to prepare, and ranking in raw tokens would get the order
-wrong. Removing the `τ_bg` weighting is one of the paper's ablations.
+wrong. Removing the `τ_bg` weighting is one of our ablations.
 
 ## Tenant isolation
 
@@ -105,7 +105,7 @@ A single issue point is what makes these caps bind: caps applied per tier would
 let one tenant hold `κ_u` tickets on each tier. Tenants skipped while eligible
 accumulate aging so a stream of high-score arrivals cannot starve them.
 
-## Algorithm 1: one ranking epoch
+## One ranking epoch
 
 ```
 A ← ∅
@@ -125,7 +125,7 @@ issue, result handling).
 
 ## Ablation switches
 
-`SchedulerConfig` exposes the switches the paper's ablation uses:
+`SchedulerConfig` exposes the switches our ablations use:
 
 | switch | effect |
 |---|---|

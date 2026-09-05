@@ -1,4 +1,4 @@
-"""The decode-TPOT guard and the three-mode decision function (Equation 8).
+"""The decode-TPOT guard and the three-mode decision function.
 
                  | Idle,     D_t = P_t = 0
     Mode(t) =    | Mixed,    D_t + P_t > 0  and  X_t > 0  and  ok_t
@@ -10,7 +10,7 @@ foreground TPOT stays within a configured multiple of a reference value:
     TPOT_t^ewma <= (1 + gamma) * TPOT_ref
 
 ``TPOT_ref`` is the median of a run of foreground-only calibration steps taken
-when the engine starts (200 by default), and ``gamma`` is 0.03 in the paper.
+when the engine starts (200 by default), and ``gamma`` defaults to 0.03.
 """
 
 from __future__ import annotations

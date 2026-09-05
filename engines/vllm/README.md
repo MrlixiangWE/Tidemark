@@ -63,5 +63,5 @@ and keeps a timestamped copy of the original files for `--rollback`.
 A stock vLLM still accepts the prefill-only request as a plain low-priority
 completion. Nothing breaks; the engine simply prefills the whole requested
 interval whenever the priority scheduler gets to it, with no safe budget and no
-guard. That is precisely the whole-suffix prefetch baseline in the paper, which
+guard. That is precisely the whole-suffix prefetch baseline we compare against, which
 is convenient for A/B runs.

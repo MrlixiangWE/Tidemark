@@ -6,7 +6,7 @@ the KV state of the models that are *not* serving a session close to the
 conversation, so that a later switch to one of them finds most of the prefix
 already resident.
 
-The package is organised around the three components described in the paper:
+The package is organised around three components:
 
 * :mod:`tidemark.catalog` -- the versioned KV frontier catalog, which records
   for every ``(session, model, runtime_config)`` how far a reusable prefix has

@@ -26,7 +26,7 @@ class DifficultyRouter:
     for the session (link up, battery above floor, cost cap not hit). When the
     difficulty-selected tier is infeasible the route falls back to the highest
     feasible one and returns when the constraint clears, which is the
-    "mobility replay" behaviour described in the paper.
+    "mobility replay" behaviour of our evaluation.
     """
 
     ORDER = ("device", "edge", "cloud")

@@ -67,7 +67,7 @@ python scripts/bench_switch_ttft.py --endpoint http://10.0.1.10:8000 \
 ```
 
 TTFT should scale linearly with the lag and the `cached` column should equal
-`history − lag`. Over 240 switches per tier in the paper, a committed frontier
+`history − lag`. Over 240 switches per tier on our testbed, a committed frontier
 and a clean full prefill yielded identical next-token ids.
 
 ## Tensor parallelism

@@ -11,7 +11,7 @@ from tidemark.runtime.config import EngineConfig
 from tidemark.scheduler.predictor import StaticRouterSignal
 
 # 1. Describe the engines. Rates come from scripts/calibrate_rates.py; these
-#    are the paper's edge and cloud numbers.
+#    are our edge and cloud numbers.
 config = TidemarkConfig(
     engines=[
         EngineConfig("edge-0", "qwen2.5-7b", "edge", "http://edge:8000", tau_fg_ms_per_ktok=732, tau_bg_ms_per_ktok=344, kv_bytes_per_token=57344),

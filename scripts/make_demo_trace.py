@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate a small synthetic route trace for the quick-start replay.
 
-The trace has the shape of the paper's mobility replay: a handful of tenants,
+The trace has the shape of our mobility replay: a handful of tenants,
 sessions of 6-14 turns, a difficulty router that sends turns to device / edge /
 cloud, and reversible constraint events (link drop, battery floor) that force a
 temporary fallback and a later return. Prompts are filler text; only their

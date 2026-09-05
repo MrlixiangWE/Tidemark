@@ -1,6 +1,6 @@
 # The device-edge-cloud testbed
 
-This is the physical setup the paper evaluates on. It is here so the numbers
+This is the physical setup we evaluate on. It is here so the numbers
 in `configs/testbed/` have a referent and so someone assembling a similar
 testbed knows what to expect.
 

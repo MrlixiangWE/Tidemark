@@ -38,8 +38,8 @@ tidemark replay --trace examples/traces/demo.jsonl --load 0.9
 
 `ruff` with the settings in `pyproject.toml`. Type hints on public functions.
 Docstrings explain *why* a piece of code exists, not what each line does; the
-paper's equation numbers are welcome in comments where they help a reader map
-code to text.
+formulas from the design notes are welcome in comments where they help a reader
+map code to the design.
 
 Keep engine-specific knowledge inside the adapter for that engine. The
 scheduler and the admission controller should only ever see plain numbers and

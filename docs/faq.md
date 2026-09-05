@@ -24,7 +24,7 @@ makes that partial progress safe to continue later.
 **What if the router is wrong about the next destination?**
 The interval was computed for nothing, at a cost the local guard kept out of
 the foreground's way. The tenant caps bound how much of the background budget
-one tenant's bad predictions can consume. The paper's `α` sweep shows the
+one tenant's bad predictions can consume. Our `α` sweep shows the
 router signal is what matters; if you have no router probabilities at all you
 are better off disabling preparation than trusting the history prior.
 
@@ -33,11 +33,11 @@ No. Background work runs the destination model's ordinary prefill path and
 becomes visible through the ordinary prefix cache; a foreground request that
 finds it reuses it exactly as it would reuse its own earlier prefill. The
 validity predicate ensures only state that matches the current history is ever
-counted, and over 240 switches per tier in the paper a committed frontier and a
+counted, and over 240 switches per tier on our testbed a committed frontier and a
 clean full prefill yielded identical next-token ids.
 
 **What does Tidemark cost on the engines?**
-On the paper's cloud engine the scheduler-facing overhead is a JSON post per
+On our cloud engine the scheduler-facing overhead is a JSON post per
 ticket state transition and about 120 lines in the scheduler iteration. The
 scheduler process itself uses about 2 % of one CPU core on the edge module and
 56 KB of catalog for 60 sessions.

@@ -4,10 +4,10 @@ Each scheduling iteration first admits foreground decode and foreground
 prefill, so that background work never delays them, and then fits at most one
 interval into the budget they leave. The pieces are:
 
-* :func:`safe_budget` -- ``X_t`` (Equation 7): how many background tokens fit
+* :func:`safe_budget` -- ``X_t``: how many background tokens fit
   after foreground work while preserving KV headroom.
 * :class:`TpotGuard` and :func:`classify_mode` -- the three-mode decision
-  function (Equation 8): ``Idle``, ``Mixed`` or ``Blocked``.
+  function: ``Idle``, ``Mixed`` or ``Blocked``.
 * :class:`EngineLocalAdmission` -- picks the admitted size from the fixed
   interval set, one interval per iteration, and cancels it at the next
   scheduler boundary if a foreground request lands.
