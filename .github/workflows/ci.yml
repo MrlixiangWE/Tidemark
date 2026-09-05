@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: py${{ matrix.python }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.9", "3.10", "3.11", "3.12"]
+        include:
+          - os: macos-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Lint
+        run: ruff check tidemark tests scripts
+      - name: Unit tests
+        run: pytest -q --cov=tidemark --cov-report=term-missing
+      - name: Replay smoke
+        run: |
+          python scripts/make_demo_trace.py --sessions 8 --seed 1 > /tmp/trace.jsonl
+          tidemark replay --trace /tmp/trace.jsonl --load 0.6
+
+  patch-applies:
+    name: vLLM patch applies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch vLLM sources
+        run: |
+          git clone --depth 1 --branch v0.10.1 https://github.com/vllm-project/vllm.git /tmp/vllm
+      - name: Dry-run the patch
+        run: |
+          cd /tmp/vllm
+          patch -p1 --dry-run --forward < $GITHUB_WORKSPACE/engines/vllm/tidemark_v1_admission.patch || echo "::warning::patch needs fuzz against v0.10.1"

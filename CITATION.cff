@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use Tidemark in your research, please cite the paper below."
+title: "Tidemark: Efficient Model Switching with Versioned KV Frontiers in Device-Edge-Cloud LLM Serving"
+type: software
+authors:
+  - name: "The Tidemark Authors"
+repository-code: "https://github.com/MrlixiangWE/Tidemark"
+license: Apache-2.0
+keywords:
+  - LLM serving
+  - KV cache
+  - edge computing
+  - mobile systems
+  - scheduling
+preferred-citation:
+  type: conference-paper
+  title: "Tidemark: Efficient Model Switching with Versioned KV Frontiers in Device-Edge-Cloud LLM Serving"
+  authors:
+    - name: "Anonymous Authors"
+  collection-title: "Proceedings of the 33rd Annual International Conference on Mobile Computing and Networking (MobiCom '27)"
+  year: 2027
+  publisher:
+    name: ACM
