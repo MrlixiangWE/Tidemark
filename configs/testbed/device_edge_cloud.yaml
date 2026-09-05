@@ -1,0 +1,66 @@
+# The three-tier testbed used in the paper.
+#
+# Device platforms carry their own compact model; both server tiers run Qwen2.5
+# at different sizes. The scheduler process runs on one of the edge modules,
+# one wireless hop from the devices. Rates come from configs/testbed/rates.yaml.
+
+rates_file: rates.yaml
+
+scheduler:
+  listen: "0.0.0.0:7420"
+  delta_max: 1024
+  alpha: 1.0
+  lambda_mem_ms_per_gib: 64
+  kappa: 2
+  beta: 0.35
+
+admission:
+  intervals: [256, 512, 1024]
+  gamma: 0.03
+  kv_headroom: 0.08
+
+telemetry:
+  directory: /var/lib/tidemark/telemetry
+
+engines:
+  # ---- device tier -------------------------------------------------------
+  - engine_id: phone-s23
+    model: meta-llama/Llama-3.2-1B-Instruct
+    tier: device
+    backend: llamacpp
+    endpoint: http://10.0.3.21:8080
+    runtime_config: llamacpp-q4km-4k
+  - engine_id: jetson-orin-nx
+    model: microsoft/Phi-3.5-mini-instruct
+    tier: device
+    backend: llamacpp
+    endpoint: http://10.0.3.22:8080
+    runtime_config: llamacpp-q4km-4k
+  - engine_id: rpi5
+    model: google/gemma-3-1b-it
+    tier: device
+    backend: llamacpp
+    endpoint: http://10.0.3.23:8080
+    runtime_config: llamacpp-q4km-4k
+
+  # ---- edge tier ---------------------------------------------------------
+  - engine_id: agx-orin-a
+    model: Qwen/Qwen2.5-7B-Instruct-AWQ
+    tier: edge
+    backend: vllm
+    endpoint: http://10.0.2.11:8000
+    runtime_config: vllm-awq-16k-apc
+  - engine_id: agx-orin-b
+    model: Qwen/Qwen2.5-7B-Instruct-AWQ
+    tier: edge
+    backend: vllm
+    endpoint: http://10.0.2.12:8000
+    runtime_config: vllm-awq-16k-apc
+
+  # ---- cloud tier --------------------------------------------------------
+  - engine_id: cloud-2gpu
+    model: Qwen/Qwen2.5-14B-Instruct
+    tier: cloud
+    backend: vllm
+    endpoint: http://10.0.1.10:8000
+    runtime_config: vllm-bf16-32k-apc

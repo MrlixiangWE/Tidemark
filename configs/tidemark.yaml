@@ -1,0 +1,31 @@
+# Tidemark scheduler defaults.
+#
+# These are the values used throughout the paper's evaluation. Copy this file,
+# fill in the `engines:` list for your deployment, and point `rates_file:` at
+# the output of scripts/calibrate_rates.py.
+
+scheduler:
+  listen: "0.0.0.0:7420"
+  delta_max: 1024            # largest interval a ticket may advance, in tokens
+  alpha: 1.0                 # predictor weight: 1 = router signal only, 0 = history prior only
+  lambda_mem_ms_per_gib: 64  # converts incremental KV occupancy into compute-time units
+  kappa: 2                   # outstanding admitted tickets per tenant
+  beta: 0.35                 # share of the aggregate background budget per tenant
+  ticket_lease_s: 30
+
+admission:
+  intervals: [256, 512, 1024]  # D: admitted sizes an engine may choose from
+  x_max: 1024                  # cap on a single admission
+  kv_headroom: 0.08            # fraction of KV blocks kept free by the safe budget
+  gamma: 0.03                  # decode-TPOT guard: EWMA must stay within (1 + gamma) * TPOT_ref
+  tpot_ewma_alpha: 0.2
+  calibration_steps: 200       # foreground-only steps used to fix TPOT_ref
+
+telemetry:
+  directory: ./telemetry
+  request_log: true
+  step_log: true
+  ticket_log: true
+
+# engines: see configs/testbed/device_edge_cloud.yaml for a full example
+engines: []

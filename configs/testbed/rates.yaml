@@ -1,0 +1,54 @@
+# Fitted per-engine rates for the paper's testbed.
+#
+#   tau_fg  foreground wall time per uncached token on the critical path of a switch
+#   tau_bg  incremental scheduled compute time an interval adds when batched with decode
+#
+# Both are in milliseconds per thousand tokens. Regenerate with
+#   python scripts/calibrate_rates.py --config configs/testbed/device_edge_cloud.yaml --out configs/testbed/rates.yaml
+#
+# Note the rates are not monotone in model size: the 7B model on the embedded
+# module prefills more slowly than the 14B model on the datacenter GPU.
+
+engines:
+  phone-s23:
+    model: meta-llama/Llama-3.2-1B-Instruct
+    tier: device
+    tau_fg_ms_per_ktok: 2560
+    tau_bg_ms_per_ktok: 2330
+    kv_bytes_per_token: 32768
+    tpot_ref_ms: 48.2
+  jetson-orin-nx:
+    model: microsoft/Phi-3.5-mini-instruct
+    tier: device
+    tau_fg_ms_per_ktok: 2210
+    tau_bg_ms_per_ktok: 1990
+    kv_bytes_per_token: 98304
+    tpot_ref_ms: 61.7
+  rpi5:
+    model: google/gemma-3-1b-it
+    tier: device
+    tau_fg_ms_per_ktok: 3140
+    tau_bg_ms_per_ktok: 2900
+    kv_bytes_per_token: 26624
+    tpot_ref_ms: 92.4
+  agx-orin-a:
+    model: Qwen/Qwen2.5-7B-Instruct-AWQ
+    tier: edge
+    tau_fg_ms_per_ktok: 732
+    tau_bg_ms_per_ktok: 344
+    kv_bytes_per_token: 57344
+    tpot_ref_ms: 31.0
+  agx-orin-b:
+    model: Qwen/Qwen2.5-7B-Instruct-AWQ
+    tier: edge
+    tau_fg_ms_per_ktok: 741
+    tau_bg_ms_per_ktok: 351
+    kv_bytes_per_token: 57344
+    tpot_ref_ms: 31.4
+  cloud-2gpu:
+    model: Qwen/Qwen2.5-14B-Instruct
+    tier: cloud
+    tau_fg_ms_per_ktok: 191
+    tau_bg_ms_per_ktok: 73
+    kv_bytes_per_token: 98304
+    tpot_ref_ms: 8.8
