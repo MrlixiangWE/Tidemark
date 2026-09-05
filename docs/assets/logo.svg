@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" width="640" height="160" role="img" aria-label="Tidemark">
+  <defs>
+    <linearGradient id="w1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <linearGradient id="w2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+    <linearGradient id="w3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#4f46e5"/></linearGradient>
+  </defs>
+  <rect width="640" height="160" rx="22" fill="#0b1220"/>
+  <g transform="translate(36 32) scale(1.5)">
+    <path d="M30 17 c4 -3 8 -3 12 0 s7 3 10 0" fill="none" stroke="url(#w1)" stroke-width="4.2" stroke-linecap="round"/>
+    <path d="M19 30 c5 -4 10 -4 16 0 s10 4 17 0" fill="none" stroke="url(#w2)" stroke-width="4.2" stroke-linecap="round"/>
+    <path d="M6 44 c7 -5 14 -5 22 0 s15 5 24 0" fill="none" stroke="url(#w3)" stroke-width="4.2" stroke-linecap="round"/>
+    <rect x="56.6" y="8" width="4.2" height="48" rx="2.1" fill="#f59e0b"/>
+  </g>
+  <text x="152" y="106" font-family="Poppins, Montserrat, Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="74" font-weight="700" letter-spacing="-1" fill="#ffffff">Tidemark</text>
+</svg>
