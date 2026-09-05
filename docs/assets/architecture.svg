@@ -37,7 +37,7 @@
   <rect x="84" y="166" width="250" height="130" rx="10" class="box2"/>
   <circle cx="106" cy="188" r="10" fill="#22d3ee"/><text x="106" y="192" text-anchor="middle" class="num">1</text>
   <text x="124" y="193" class="t">Versioned KV frontier catalog</text>
-  <text x="100" y="218" class="m">F : (s, m, c) ↦ &lt;r, F, L, q, g&gt;</text>
+  <text x="100" y="218" class="m" style="font-size:11.5px">F : (s, m, c) ↦ &lt;r, F, L, q, g&gt;</text>
   <text x="100" y="240" class="s">per session × model × runtime config</text>
   <text x="100" y="258" class="s">appends extend · edits retract to LCP</text>
   <text x="100" y="276" class="s">evictions retract · generations invalidate</text>
@@ -61,7 +61,7 @@
 
   <!-- internal arrows -->
   <line x1="334" y1="231" x2="356" y2="231" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="345" y="222" text-anchor="middle" class="s" style="font-size:10.5px">lagging</text>
+  <text x="345" y="248" text-anchor="middle" class="s" style="font-size:10px">lagging</text>
   <line x1="678" y1="195" x2="656" y2="210" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
   <line x1="678" y1="267" x2="656" y2="252" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
 

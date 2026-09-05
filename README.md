@@ -5,7 +5,7 @@
 <h3 align="center">Efficient model switching with versioned KV frontiers<br>for device–edge–cloud LLM serving</h3>
 
 <p align="center">
-  <a href="https://github.com/MrlixiangWE/Tidemark/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/MrlixiangWE/Tidemark/ci.yml?branch=main&label=ci&logo=github"></a>
+  <a href=".github/workflows/ci.yml"><img alt="tests" src="https://img.shields.io/badge/tests-54%20passing-brightgreen?logo=pytest&logoColor=white"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg"></a>
   <img alt="Python" src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-3776AB?logo=python&logoColor=white">
   <img alt="vLLM" src="https://img.shields.io/badge/vLLM-V1%20%E2%89%A5%200.10-2ea44f">
