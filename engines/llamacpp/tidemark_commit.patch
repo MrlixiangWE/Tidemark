@@ -1,0 +1,129 @@
+From: The Tidemark Authors
+Subject: [PATCH] server: prefill-only requests and commit accounting for Tidemark
+
+Accept n_predict == 0 as a prompt-only request, and attach a tidemark_commit
+block to the completion response with the cached token count and a hash of
+the slot's resident prefix. Also expose prompt_tokens on /slots.
+
+---
+ tools/server/server.cpp | 58 +++++++++++++++++++++++++++++++++++++++--
+ tools/server/utils.hpp  | 21 ++++++++++++++
+ 2 files changed, 77 insertions(+), 2 deletions(-)
+
+diff --git a/tools/server/utils.hpp b/tools/server/utils.hpp
+--- a/tools/server/utils.hpp
++++ b/tools/server/utils.hpp
+@@ -32,6 +32,27 @@
+
+ using json = nlohmann::ordered_json;
+
++// Tidemark: BLAKE2b-128 over little-endian int32 token ids, matching
++// tidemark.catalog.history.content_hash on the scheduler side.
++#include <sodium/crypto_generichash_blake2b.h>
++
++static std::string tidemark_prefix_hash(const llama_tokens & toks, size_t n) {
++    unsigned char out[16];
++    crypto_generichash_blake2b_state st;
++    crypto_generichash_blake2b_init(&st, nullptr, 0, sizeof(out));
++    for (size_t i = 0; i < n && i < toks.size(); ++i) {
++        uint32_t v = (uint32_t) toks[i];
++        unsigned char le[4] = {(unsigned char)(v), (unsigned char)(v >> 8),
++                               (unsigned char)(v >> 16), (unsigned char)(v >> 24)};
++        crypto_generichash_blake2b_update(&st, le, 4);
++    }
++    crypto_generichash_blake2b_final(&st, out, sizeof(out));
++    static const char * hex = "0123456789abcdef";
++    std::string s; s.reserve(32);
++    for (unsigned char c : out) { s.push_back(hex[c >> 4]); s.push_back(hex[c & 15]); }
++    return s;
++}
++
+ template <typename T>
+ static T json_value(const json & body, const std::string & key, const T & default_value) {
+     // Fallback null to default value
+diff --git a/tools/server/server.cpp b/tools/server/server.cpp
+--- a/tools/server/server.cpp
++++ b/tools/server/server.cpp
+@@ -158,6 +158,9 @@ struct slot_params {
+     json to_json() const {
+         std::vector<std::string> samplers;
+         samplers.reserve(sampling.samplers.size());
+@@ -1372,6 +1375,13 @@ struct server_slot {
+         return n_remaining > 0; // no budget
+     }
+
++    // Tidemark: a prefill-only task ends as soon as the prompt is in the cache.
++    bool is_prefill_only() const {
++        return params.n_predict == 0 && task_type == SERVER_TASK_TYPE_COMPLETION;
++    }
++
+     bool is_processing() const {
+         return state != SLOT_STATE_IDLE;
+     }
+@@ -1547,6 +1557,7 @@ struct server_slot {
+         return json {
+             {"id",            id},
+             {"id_task",       id_task},
+             {"n_ctx",         n_ctx},
+             {"speculative",   can_speculate()},
+             {"is_processing", is_processing()},
++            {"prompt_tokens", prompt_tokens.get_text_tokens()},
+             {"params",        params.to_json()},
+             {"prompt",        prompt_tokens.detokenize(ctx, true)},
+             {"next_token",
+@@ -2588,6 +2599,25 @@ struct server_context {
+
+         res->verbose        = slot.params.verbose;
+         res->stream         = slot.params.stream;
+         res->include_usage  = slot.params.include_usage;
+         res->oaicompat      = slot.params.oaicompat;
++
++        // Tidemark: commit accounting for background prefill. Reported for
++        // every completion so foreground requests can update the catalog too.
++        {
++            const size_t n_resident = slot.cache_tokens.size();
++            res->tidemark_commit = json {
++                {"tokens_cached",    slot.n_prompt_tokens_cache},
++                {"tokens_evaluated", slot.n_prompt_tokens_processed},
++                {"prefix_hash",      tidemark_prefix_hash(slot.cache_tokens.get_text_tokens(), n_resident)},
++                {"slot",             slot.id},
++            };
++        }
+
+         // populate res.probs_output
+         if (slot.params.sampling.n_probs > 0) {
+@@ -3286,6 +3316,23 @@ struct server_context {
+
+                     slot.n_prompt_tokens_processed += n_batch_tokens;
+                 }
+
++                // Tidemark: for a prefill-only slot, finish as soon as the
++                // whole prompt is resident. No sampling, no output tokens.
++                if (slot.is_prefill_only() && slot.n_prompt_tokens_processed >= slot.n_prompt_tokens) {
++                    SLT_INF(slot, "prefill-only request complete, n_cached = %d, n_eval = %d\n",
++                            slot.n_prompt_tokens_cache, slot.n_prompt_tokens_processed);
++                    slot.stop = STOP_TYPE_LIMIT;
++                    slot.has_next_token = false;
++                    slot.release();
++                    send_final_response(slot);
++                    continue;
++                }
++
+                 // entire prompt has been processed
+                 if (slot.n_past == slot.n_prompt_tokens) {
+                     slot.state = SLOT_STATE_DONE_PROMPT;
+@@ -3901,6 +3948,13 @@ int main(int argc, char ** argv) {
+                 if (data.contains("prompt")) {
+                     tokenized_prompts = tokenize_input_prompts(ctx_server.vocab, data.at("prompt"), true, true);
+                 }
++                // Tidemark: n_predict == 0 is a prompt-only request, not an
++                // unbounded generation. Force the prompt to stay in the slot.
++                if (json_value(data, "n_predict", -1) == 0) {
++                    data["cache_prompt"] = true;
++                    data["n_keep"] = -1;
++                }
+                 tasks.reserve(tokenized_prompts.size());
+                 for (size_t i = 0; i < tokenized_prompts.size(); i++) {
+                     server_task task = server_task(type);
+--
+2.43.0
