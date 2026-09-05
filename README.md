@@ -10,7 +10,6 @@
   <img alt="Python" src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-3776AB?logo=python&logoColor=white">
   <img alt="vLLM" src="https://img.shields.io/badge/vLLM-V1%20%E2%89%A5%200.10-2ea44f">
   <img alt="llama.cpp" src="https://img.shields.io/badge/llama.cpp-b6100-8a2be2">
-  <img alt="Paper" src="https://img.shields.io/badge/paper-MobiCom%20'27-b31b1b">
   <a href="https://github.com/astral-sh/ruff"><img alt="ruff" src="https://img.shields.io/badge/code%20style-ruff-261230"></a>
 </p>
 
@@ -287,16 +286,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Citation
 
-```bibtex
-@inproceedings{tidemark2027,
-  title     = {Tidemark: Efficient Model Switching with Versioned KV Frontiers
-               in Device-Edge-Cloud LLM Serving},
-  author    = {Anonymous Authors},
-  booktitle = {Proceedings of the 33rd Annual International Conference on
-               Mobile Computing and Networking (MobiCom '27)},
-  year      = {2027}
-}
-```
+The accompanying paper is under review. A citation entry will be added here
+once it is public; until then, please cite this repository.
 
 ## License
 
