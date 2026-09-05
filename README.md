@@ -153,11 +153,7 @@ The deployment guides cover the details: [vLLM](docs/deployment/vllm.md),
 
 Tidemark has three parts, matching Sections 3.2–3.4 of the paper.
 
-<table>
-<tr>
-<td width="33%" valign="top">
-
-**❶ Versioned KV frontier catalog**
+### ❶ Versioned KV frontier catalog
 
 ```
 F : (s, m, c) ↦ ⟨r, F, L, q, g⟩
@@ -165,56 +161,44 @@ F : (s, m, c) ↦ ⟨r, F, L, q, g⟩
 
 For each session and each compatible model, the committed prefix position `F`,
 the revision `r` that produced it, its physical placement `L`, an in-flight
-target `q`, and a generation `g`. A completed interval commits only if
+target `q`, and a generation `g`. A completed interval commits only if the
+tokens it prefilled are still the history's tokens, nothing bumped the
+generation since issue, and the interval continues the committed frontier
+exactly:
 
 ```
-h(H_a[0:F+Δ]) = h(H_s[0:F+Δ])
-      ∧ g_a = g ∧ F_a = F
+Valid(a) = 1[h(H_a[0:F+Δ]) = h(H_s[0:F+Δ])] · 1[g_a = g] · 1[F_a = F]
 ```
 
 Appends never invalidate a ticket; edits retract to the longest common prefix
-and bump `g`.
+and bump `g`. → [design note](docs/design/versioned-frontier.md)
 
-[→ design note](docs/design/versioned-frontier.md)
-
-</td>
-<td width="33%" valign="top">
-
-**❷ Global frontier scheduler**
+### ❷ Global frontier scheduler
 
 ```
-B(a) = p · [C_m(lag) − C_m(lag − Δ)]
-R(a) = τ_bg·Δ + λ_M·M_m(Δ)
-Score = B / R
+B(a) = p_{s,m} · [C_m(lag) − C_m(lag − Δ)]      expected switch latency removed
+R(a) = τ_bg · Δ + λ_M · M_m(Δ)                  background compute + KV occupancy
+Score(a) = B(a) / R(a)
 ```
 
 Runs an epoch whenever a history grows or an engine changes state. Ranks
 lagging frontiers by latency removed per unit of background compute, caps each
-tenant at `κ` tickets and a `β` share of the aggregate budget, ages tenants that
-keep losing, and issues at most one atomic ticket per engine.
+tenant at `κ` outstanding tickets and a `β` share of the aggregate budget, ages
+tenants that keep losing, and issues at most one atomic ticket per engine.
+→ [design note](docs/design/global-scheduler.md)
 
-[→ design note](docs/design/global-scheduler.md)
-
-</td>
-<td width="33%" valign="top">
-
-**❸ Engine-local admission**
+### ❸ Engine-local admission
 
 ```
-X_t = max(0, min(B_t − D_t − P_t, X_max, X_t^KV))
-Mode = Idle | Mixed | Blocked
+X_t = max(0, min(B_t − D_t − P_t, X_max, X_t^KV))        safe budget of iteration t
+Mode(t) = Idle | Mixed | Blocked                        Mixed requires TPOT_ewma ≤ (1+γ)·TPOT_ref
 ```
 
-Foreground first. Then, if the decode-TPOT EWMA is within `(1+γ)·TPOT_ref`, fit
-the largest interval from `{256, 512, 1024}` that is below both the ticket's
-`Δmax` and the safe budget. Re-evaluated every iteration; a foreground arrival
-stops the interval and it does not commit.
-
-[→ design note](docs/design/engine-admission.md)
-
-</td>
-</tr>
-</table>
+Foreground first. Then, if the decode-TPOT guard holds, fit the largest
+interval from `{256, 512, 1024}` that is below both the ticket's `Δmax` and the
+safe budget. Re-evaluated every scheduler iteration; a foreground arrival stops
+the in-flight interval and it does not commit.
+→ [design note](docs/design/engine-admission.md)
 
 ### Where it sits relative to existing mechanisms
 
